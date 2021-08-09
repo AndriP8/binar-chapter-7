@@ -12,7 +12,7 @@ module.exports = {
       await User.register(req.body);
       res.redirect("/admin/signin");
     } catch (error) {
-      res.redirect("/admin/signin");
+      res.redirect("/admin/register");
       next(error);
     }
   },
