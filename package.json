@@ -23,7 +23,8 @@
     "passport-local": "^1.0.0",
     "pg": "^8.7.1",
     "sequelize": "^6.6.5",
-    "startbootstrap-sb-admin-2": "^4.1.4"
+    "startbootstrap-sb-admin-2": "^4.1.4",
+    "uuid": "^8.3.2"
   },
   "main": "app.js",
   "devDependencies": {
