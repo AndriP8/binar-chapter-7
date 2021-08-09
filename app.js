@@ -13,9 +13,13 @@ const flash = require("express-flash");
 
 // passport js
 const passport = require("./lib/passport.js");
+const passport_jwt = require("./lib/passport-jwt.js");
 
 // admin router
 const adminRouter = require("./routes/admin");
+
+// api router
+const apiRouter = require("./routes/api");
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -36,6 +40,7 @@ app.use(
 app.use(express.static(path.join(__dirname, "public")));
 
 // passport handler
+app.use(passport_jwt.initialize());
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -50,6 +55,7 @@ app.set("view engine", "ejs");
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/admin", adminRouter);
+app.use("/api", apiRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
