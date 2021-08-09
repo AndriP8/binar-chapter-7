@@ -2,6 +2,7 @@
 const { Model } = require("sequelize");
 
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -13,13 +14,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
-
     static #encrypt = (password) => bcrypt.hashSync(password, 10);
 
-    static register = ({ username, password }) => {
+    static register = ({ username, password, isAdmin }) => {
       const encryptedPassword = this.#encrypt(password);
 
-      return this.create({ username, password: encryptedPassword });
+      return this.create({ username, password: encryptedPassword, isAdmin });
     };
 
     checkPassword = (password) => bcrypt.compareSync(password, this.password);
@@ -38,11 +38,23 @@ module.exports = (sequelize, DataTypes) => {
         return Promise.reject(err);
       }
     };
+
+    // token based
+    generateToken = () => {
+      const payload = {
+        id: this.id,
+        username: this.username,
+      };
+      const verification_token = "asd";
+      const token = jwt.sign(payload, verification_token);
+      return token;
+    };
   }
   User.init(
     {
       username: DataTypes.STRING,
       password: DataTypes.STRING,
+      isAdmin: DataTypes.STRING,
     },
     {
       sequelize,
