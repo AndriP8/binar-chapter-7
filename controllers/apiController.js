@@ -45,7 +45,10 @@ module.exports = {
         room,
       });
     } catch (error) {
-      res.status(400).json({ message: "userId tidak ditemukan" });
+      res.status(400).json({
+        message: "userId tidak ditemukan",
+        token_acces: "anda tidak memiliki token, silahkan login untuk mendapatkan token",
+      });
     }
   },
   viewDataRoom: async (req, res) => {
