@@ -30,4 +30,4 @@
   id is the data in the user table and is used as the value of the playerOneId attribute in the room table
 - Data room GET = <code>/api/v1/generate/:id</code> id is the data in the room table
 - Join room POST = <code>/api/v1/join_room</code> this endpoint updates playerTwoId based on id and taken from req.body
-- Battle game POST = <code>/api/v1/fight</code>
+- Battle game POST = <code>/api/v1/fight</code> this endpoint calling req.body from roomId, hand, userId 
