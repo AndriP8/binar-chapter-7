@@ -10,5 +10,7 @@ router.get("/v1/whoami", restrict, apiController.whoAmi);
 router.post("/generate/:id", apiController.createRoom);
 router.get("/generate/:id", apiController.viewDataRoom);
 router.post("/room_id", apiController.joinRoom);
+router.post("/fight", apiController.battleGame);
+router.get("/result", apiController.getResult);
 
 module.exports = router;

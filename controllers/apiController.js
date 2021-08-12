@@ -76,4 +76,78 @@ module.exports = {
       res.status(400).json({ message: "Gagal join room" });
     }
   },
+  battleGame: async (req, res) => {
+    try {
+      const matchRoom = await Room.findOne({ where: { id: req.body.roomId } });
+      const player = await wichPlayer(req.body.userId, req.body.roomId);
+      if (player == "player 1") {
+        res.status(201).json({matchInfo: req.body.hand, matchRoom})
+      } else if (player == "player 2") {
+        res.status(201).json({matchInfo: req.body.hand, matchRoom})
+      }
+    } catch (error) {
+      res.status(401).json({message: "userId dari player tidak ditemukan"});
+    }
+  },
+  getResult: async (req, res) => {
+    try {
+      let matchRoom = await Room.findOne({ where: { id: req.body.id } });
+      let matchInfo = matchRoom.matchInfo;
+      let winner = "";
+      switch (req.body.round) {
+        case 1:
+          winner = getWinner(matchInfo.slice(0, 2));
+          break;
+        case 2:
+          winner = getWinner(matchInfo.slice(2, 4));
+          break;
+        case 1:
+          winner = getWinner(matchInfo.slice(4, 6));
+          break;
+        default:
+          break;
+      }
+    if (winner != "") {
+      res.json({ message: winner });
+    } else {
+      res.json({ message: "error" });
+    }
+    } catch (error) {
+      res.json(error)
+    }
+  }
 };
+
+async function wichPlayer(id, roomId) {
+  const matchRoom = await Room.findOne({ where: { id: roomId } });
+  if (matchRoom == null || matchRoom == 0) {
+    return "not found";
+  }
+  if (id == matchRoom.playerOneId) {
+    return "player 1";
+  } else if (id == matchRoom.playerTwoId) {
+    return "player 2";
+  } else {
+    return "not found";
+  }
+}
+
+function getWinner(matchSet) {
+  matchstring = matchSet.json("");
+  switch (matchstring) {
+    case "RR":
+    case "PP":
+    case "SS":
+      return "Draw";
+    case "RS":
+    case "SP":
+    case "PR":
+      return "Player 1 win";
+    case "SR":
+    case "PS":
+    case "RP":
+      return "Player 2 win";
+    default:
+      return "Match belum selesai";
+  }
+}
