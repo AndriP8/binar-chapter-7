@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       playerOneId: DataTypes.INTEGER,
       playerTwoId: DataTypes.INTEGER,
-      macthInfo: {
+      matchInfo: {
         type: DataTypes.ARRAY(DataTypes.STRING),
         defaultValue: ["", "", ""],
       },
